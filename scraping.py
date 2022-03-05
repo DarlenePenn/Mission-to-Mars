@@ -19,7 +19,7 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now(),
-        "title": title, "highres_url": highres_url()
+        "title": title(), "highres_url": highres_url()
     }
     
 
