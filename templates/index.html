@@ -56,17 +56,16 @@
       <hr>
       <div class="col-md-12">
           <div class="row">
-              {% for hemispheres in hemisphere_image_url %:
+              {% for hemispheres in hemisphere_image_url %}
               <div class="col-md-6">
                   <div class="card text-white bg-dark" style="margin: 30px;">
                       <img class="card-img-top" src="{{item.highres_url}}" />
                       <div class="card-body">
                           <p class="card-text">{{item.title}}</p>
-                          endfor;}
                       </div>
                   </div>
               </div>
-            }endfor;
+            {% endfor %}
           </div>
       </div>
     </div>
