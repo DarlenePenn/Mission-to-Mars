@@ -1,8 +1,10 @@
 # Import dependencies
+from matplotlib.pyplot import title
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
 import datetime as dt
+from sqlalchemy import desc
 from webdriver_manager.chrome import ChromeDriverManager
 
 def scrape_all():
@@ -19,7 +21,7 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now(),
-        "title": title(), "highres_url": highres_url()
+        "hemispheres": hemisphere_images(browser)
     }
     
 
@@ -101,8 +103,9 @@ def mars_facts():
 def hemisphere_images():
     # 1. Use browser to visit the URL 
     url = 'https://marshemispheres.com/'
-
-    browser.visit(url)# 2. Create a list to hold the images and titles.
+    browser.visit(url)
+    
+    # 2. Create a list to hold the images and titles.
     hemisphere_image_urls = []
 
     # 3. Write code to retrieve the image urls and titles for each hemisphere.
