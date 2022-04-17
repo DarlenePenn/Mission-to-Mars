@@ -100,7 +100,7 @@ def mars_facts():
     #convert table to a html object 
     return df.to_html(classes="table table-striped")
 
-def hemisphere_images():
+def hemisphere_images(browser):
     # 1. Use browser to visit the URL 
     url = 'https://marshemispheres.com/'
     browser.visit(url)
