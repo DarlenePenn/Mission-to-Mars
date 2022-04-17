@@ -119,7 +119,7 @@ def hemisphere_images(browser):
     try:
         #loop through each item
         for i in hemi_items:
-            title = i.find('h3').text
+            desc = i.find('h3').text
             thumb_url = i.find('a', class_='itemLink product-item')['href']
     
     except AttributeError:
@@ -136,7 +136,7 @@ def hemisphere_images(browser):
         highres_url = url + image_soup.find('img', class_='wide-image')['src']
 
         #add it to the list
-        hemisphere_image_urls.append({'title': title, "highres_url": highres_url})
+        hemisphere_image_urls.append({'desc': desc, "highres_url": highres_url})
 
         return hemisphere_image_urls
 
