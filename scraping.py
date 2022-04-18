@@ -20,8 +20,9 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now(),
-        "hemispheres": hemisphere_images(browser)
+        "hemispheres": hemispheres(browser),
+        "last_modified": dt.datetime.now()
+        
     }
     
 
@@ -100,7 +101,7 @@ def mars_facts():
     #convert table to a html object 
     return df.to_html(classes="table table-striped")
 
-def hemisphere_images(browser):
+def hemispheres(browser):
     # 1. Use browser to visit the URL 
     url = 'https://marshemispheres.com/'
     browser.visit(url)
@@ -115,33 +116,34 @@ def hemisphere_images(browser):
     hemi_soup = soup(html, 'html.parser')
 
     #get elements that contain image urls and descriptions
-    hemi_items = hemi_soup.find_all('div',class_='item')
     try:
+        hemi_items = hemi_soup.find_all('div',class_='item')
+    
         #loop through each item
         for i in hemi_items:
-            desc = i.find('h3').text
+            hemispheres = {}
+            hemispheres['title'] = i.find('h3').text
             thumb_url = i.find('a', class_='itemLink product-item')['href']
-    
-    except AttributeError:
-        return None
+
+            #go to image url
+            browser.visit(url + thumb_url)
+
+            #parse html for each hemisphere
+            new_html = browser.html
+            image_soup = soup(new_html, 'html.parser')
+
+            #get high res image
+            hemispheres['img_url'] = url + image_soup.find('img', class_='wide-image')['src']
+
+            #add it to the list
+            hemisphere_image_urls.append(hemispheres)
+
+            browser.back()
         
-        #go to image url
-        browser.visit(url + thumb_url)
+    except AttributeError:
+        return None, None
 
-        #parse html for each hemisphere
-        new_html = browser.html
-        image_soup = soup(new_html, 'html.parser')
-
-        #get high res image
-        highres_url = url + image_soup.find('img', class_='wide-image')['src']
-
-        #add it to the list
-        hemisphere_image_urls.append({'desc': desc, "highres_url": highres_url})
-
-        return hemisphere_image_urls
-
-        browser.back()
-
+    return hemisphere_image_urls
 
 if __name__ == "__main__":
 
